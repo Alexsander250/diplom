@@ -54,7 +54,7 @@ use PDO;
 				LEFT JOIN `specializations` S ON S.`id` = EDP.`IDSp`
 				LEFT JOIN `specialities` SP ON SP.`id` = S.`specialityID`
 				where GR.`faculty` = '" . $this->poster->post_dep . "' ";
-				if (!empty($this->poster->post_group)) {
+				if (!empty($this->poster->post_group)) {							//если не выбрана группа, то выбираются группы обучающихся в выбранный учебный год				
 					$SQL .= " and GR.`grnum` = '" . $this->poster->post_group . "'";
 				} else {
 					$SQL .= " and GR.`EnrollYear` >= '".($this->poster->post_year-5)."' and GR.`EnrollYear` < '".($this->poster->post_year)."'";
@@ -72,7 +72,7 @@ use PDO;
 					LEFT JOIN `eduplans` EDP ON GR.`IDEP` = EDP.`IDEP`
 					LEFT JOIN `specializations` S ON S.`id` = EDP.`IDSp`
 					where GR.`faculty` = '" . $this->poster->post_dep . "' ";
-			if (!empty($this->poster->post_group)) {
+			if (!empty($this->poster->post_group)) {								//если не выбрана группа, то выбираются группы обучающихся в выбранный учебный год
 				$SQL .= " and GR.`grnum` = '" . $this->poster->post_group . "'";
 			} else {
 				$SQL .= " and GR.`EnrollYear` >= '".($this->poster->post_year-5)."' and GR.`EnrollYear` < '".($this->poster->post_year)."'";
@@ -93,7 +93,7 @@ use PDO;
 					LEFT JOIN `specializations` S ON S.`id` = EDP.`IDSp`
 					LEFT JOIN `specialities` SP ON SP.`id` = S.`specialityID`
 					where GR.`grnum` ";
-			if (empty($this->poster->post_group)) {
+			if (empty($this->poster->post_group)) {									//если не выбрана группа, то выбираются предметы полученные через массив arrgrZAP
 				$SQL .= " IN ('" . implode("','", $arrgrZAP) . "')";
 			} else {
 				$SQL .= " = '" . $this->poster->post_group . "'";
