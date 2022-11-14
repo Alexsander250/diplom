@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 use src\Controller;
 include 'vendor/autoload.php';
 spl_autoload_register(function($class){
