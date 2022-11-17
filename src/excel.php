@@ -243,27 +243,32 @@ use PhpOffice\PhpSpreadsheet\Style\{Font, Border, Alignment};
                 {                    
                     foreach($predmet as $IDEPC => $infpred)
                     {
-                        if(!empty($infpred['avg']))
-                        {
+                       
                             switch ($Typecontr)
                             {
                                 case 'exam':
-                                
+                                    if(!empty($infpred['avg']))
+                                    {
                                         $this->sheet->setCellValueByColumnAndRow($columnExcelExamOOP, $this->strokaExcel, $infpred['avg']);
                                         $this->sheet->setCellValueByColumnAndRow($columnExcelExamOOP, $this->strokaExcel+1, $infpred['marks'][5]);
                                         $this->sheet->setCellValueByColumnAndRow($columnExcelExamOOP, $this->strokaExcel+2, $infpred['marks'][4]);
                                         $this->sheet->setCellValueByColumnAndRow($columnExcelExamOOP, $this->strokaExcel+3, $infpred['marks'][3]);
                                         $this->sheet->setCellValueByColumnAndRow($columnExcelExamOOP, $this->strokaExcel+4, $infpred['marks'][2]);
                                         $this->sheet->setCellValueByColumnAndRow($columnExcelExamOOP, $this->strokaExcel+5, $infpred['marks'][1]); 
-                                        $columnExcelExamOOP++;                                
+                                        $columnExcelExamOOP++;  
+                                    }                              
                                     break;
                                 case 'zachet':
-                                
+                                    if(!empty($infpred['marks']))
+                                    {
                                         $this->sheet->setCellValueByColumnAndRow($columnExcelZachetOOP, $this->strokaExcel+6, $infpred['marks'][5]);
                                         $this->sheet->setCellValueByColumnAndRow($columnExcelZachetOOP, $this->strokaExcel+7, $infpred['marks'][1]);
                                         $columnExcelZachetOOP++;
+                                    }
                                     break;
-                                case 'difzachet':                                
+                                case 'difzachet': 
+                                    if(!empty($infpred['avg']))
+                                    {                               
                                         $this->sheet->setCellValueByColumnAndRow($columnExcelZachetOOP, $this->strokaExcel, $infpred['avg']);
                                         $this->sheet->setCellValueByColumnAndRow($columnExcelZachetOOP, $this->strokaExcel+1, $infpred['marks'][5]);
                                         $this->sheet->setCellValueByColumnAndRow($columnExcelZachetOOP, $this->strokaExcel+2, $infpred['marks'][4]);
@@ -271,9 +276,10 @@ use PhpOffice\PhpSpreadsheet\Style\{Font, Border, Alignment};
                                         $this->sheet->setCellValueByColumnAndRow($columnExcelZachetOOP, $this->strokaExcel+4, $infpred['marks'][2]);  
                                         $this->sheet->setCellValueByColumnAndRow($columnExcelZachetOOP, $this->strokaExcel+5, $infpred['marks'][1]);
                                         $columnExcelZachetOOP++;
+                                    }
                                     break;
                             }  
-                        }                      
+                                              
                     }       
                 }
                 $this->strokaExcel=$this->strokaExcel+7;
@@ -355,16 +361,18 @@ use PhpOffice\PhpSpreadsheet\Style\{Font, Border, Alignment};
         private function file_download($file)
         {
             if (file_exists($file)) {
+                ob_clean();
                 header('Content-Description: File Transfer');
-                header('Content-Type: application/octet-stream');
+                header('Content-Type: application/vnd.ms-excel');
                 header('Content-Disposition: attachment; filename="'.basename($file).'"');
-                header('Expires: 0');
-                header('Cache-Control: must-revalidate');
-                header('Pragma: public');
-                header('Content-Length: ' . filesize($file));
+                //header('Expires: 0');
+                //header('Cache-Control: must-revalidate');
+                //header('Pragma: public');
+                //header('Content-Length: ' . filesize($file));
                 readfile($file);
                 //exit;
             }
+
 
         }
 
