@@ -4,12 +4,18 @@ namespace src;
 
 class Controller
     { 
+		//public $shirinatable=0;
+		//public $arr = array();
 		private $poster; 
+
 		function __construct() {
 			$this->poster = new POST();
 		}
+		
+
         public function menu()
         {		
+				
 				
 			if (empty($this->poster->post_dep))	//если не выбран институт, то открывается страница для отладки
 			{
@@ -24,12 +30,18 @@ class Controller
 					$html = new html;
 					break;
 				case 0:
-					if ($this->poster->post_dep!=7)	//если выбран ВУЦ, то excel файл формируется отдельно (с остальными институтами выявляются ошибки (требует доработки))
+					if(!empty($this->poster->post_dep))
+					{
+						if ($this->poster->post_dep!=7)	//если выбран ВУЦ, то excel файл формируется отдельно (с остальными институтами выявляются ошибки (требует доработки))
 						{
 							$excel = new Excel;
 						}
 						else
-						{$excel = new Excelmil;}
+						{
+							$excel = new Excelmil;
+						}
+					}
+					
 					break;
 
 			}

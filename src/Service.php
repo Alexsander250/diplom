@@ -18,13 +18,17 @@ class Service
     function __construct() {
         $this->dbd = new database;
         $this->poster = new POST();
-        $this->get_array_data_group_of_spec();
-		$this->list_array_groups();
-		$this->get_array_predmets();
-		$this->get_array_marks_students();
-		$this->get_array_avg_marks_and_col_marks();
-		$this->max_kol_exam_and_zach();
-        $this->get_array_student_and_marks();
+		if (!empty($this->poster->post_dep))
+		{
+			$this->get_array_data_group_of_spec();
+			$this->list_array_groups();
+			$this->get_array_predmets();
+			$this->get_array_marks_students();
+			$this->get_array_avg_marks_and_col_marks();
+			$this->max_kol_exam_and_zach();
+			$this->get_array_student_and_marks();
+		}	
+        
 		if ($this->poster->post_dep==7)
 		{
 			$this->max_kol_exam_and_zach_VP();
@@ -54,7 +58,7 @@ class Service
 			{
 				$this->arraygroups[$row['grid']]=$row['grnum'];
 			}
-            
+            //print_r($this->arraygroups);			
     }
 
     private function get_array_predmets(){				//формирование вложенного массива с предметами изучаемых в группах (вкладывается во вложенный массив с группами)
@@ -218,6 +222,7 @@ class Service
 			$MaxKolZachetOOP = 0;
 			$zacmarks=0;
 			$difmarks=0;
+			//print_r($this->array);
 			foreach ($this->array as $specID => $rowSpec) {	//прохождение по специальностям
 				foreach ($rowSpec['groups'] as $id_group => $infGroup) {	//прохождение по группам
 					$kolZachetOOP = 0;
@@ -282,9 +287,13 @@ class Service
 						$MaxKolZachetVP = $kolZachetVP;
 					}
 				}
-			}			
+			}
+
+			
 			$this->MaxKolExamVP=$MaxKolExamVP;
+			//$this->MaxKolExamOOP=$this->MaxKolExamOOP-$MaxKolExamVP;
 			$this->MaxKolZachetVP=$MaxKolZachetVP;
+			//$this->MaxKolZachetOOP=$this->MaxKolZachetOOP-$MaxKolZachetVP;
 			$this->shirinatable = $MaxKolExamVP+$MaxKolZachetVP+$this->MaxKolZachetOOP+$this->MaxKolExamOOP;
 		}
 
@@ -312,7 +321,8 @@ class Service
 								}
 							}							
 						}
-					}                     
+					} 
+                    //print_r($this->arroc);
 		}
 
 
