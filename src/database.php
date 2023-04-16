@@ -48,7 +48,7 @@ use PDO;
 		public function get_data_group_of_spec()	//получение информации о специальностях и группах обучающихся по выбранным специальностям
 		{	
 			// Получение групп по специальностям
-				$SQL = "SELECT S.`id`, SP.`Name`, SP.`new_code`, GR.`EnrollYear`, GR.`grid`, GR.`grnum`
+				$SQL = "SELECT S.`id`, SP.`gosStudyTerms`, SP.`Name`, SP.`new_code`, GR.`EnrollYear`, GR.`grid`, GR.`grnum`
 				FROM `groups` GR
 				LEFT JOIN `eduplans` EDP ON GR.`IDEP` = EDP.`IDEP`
 				LEFT JOIN `specializations` S ON S.`id` = EDP.`IDSp`

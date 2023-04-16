@@ -42,13 +42,17 @@ class Service
 				$i=0;
 				foreach($result as $row)
 				{
-					if (empty($this->array[$row['id']]))
+					$year=$row['gosStudyTerms']/2;					
+					if (($year+$row['EnrollYear'])>=$this->poster->post_year)
 					{
-						$this->array[$row['id']]=array('spname' => $row['Name'], 'newcode' => $row['new_code']);
+						if (empty($this->array[$row['id']]))
+						{
+							$this->array[$row['id']]=array('spname' => $row['Name'], 'newcode' => $row['new_code']);
+						}
+						$this->array[$row['id']]['groups'][$row['grid']] = array('grnum' => $row['grnum'], 'Fyear' => $row['EnrollYear']);
+						$this->arrgrZAP[$i] = $row['grnum'];
+						$i++;
 					}
-					$this->array[$row['id']]['groups'][$row['grid']] = array('grnum' => $row['grnum'], 'Fyear' => $row['EnrollYear']);
-					$this->arrgrZAP[$i] = $row['grnum'];
-					$i++;
 				}
     }
 
