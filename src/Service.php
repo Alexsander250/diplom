@@ -168,12 +168,21 @@ class Service
 						foreach ($infGroup['predmets'] as $Typecontr => $predmet) {	//прохождение по типам контроля дисциплин
 							foreach ($predmet as $IDEPC => $infpred) {	//прохождение по дисциплинам
 								//echo '<br> arraybasic['.$specID.'][groups]['.$id_group.'][predmets]['.$Typecontr.']['.$IDEPC.'][students]';
+								
+								
+								for($i=1; $i<=5; $i++)
+								{
+									$this->array[$specID]['groups'][$id_group]['predmets'][$Typecontr][$IDEPC]['marks'][$i] = 0;
+								}
+								$this->array[$specID]['groups'][$id_group]['predmets'][$Typecontr][$IDEPC]['avg']=0;
+
+
 								if(!empty($this->array[$specID]['groups'][$id_group]['predmets'][$Typecontr][$IDEPC]['students'])){
 								 
 									$marks=array_count_values($this->array[$specID]['groups'][$id_group]['predmets'][$Typecontr][$IDEPC]['students']);
 														
 									$summ=0;
-
+									
 									//запись кол-ва оценок по дисциплине и среднего балла по дисциплине
 									switch ($infpred['type_cont']) {
 									case 0:
@@ -182,10 +191,7 @@ class Service
 									case 4:
 									case 5:
 									case 6:
-										for($i=1; $i<=5; $i++)
-										{
-											$this->array[$specID]['groups'][$id_group]['predmets'][$Typecontr][$IDEPC]['marks'][$i] = 0;
-										}
+										
 										foreach($marks as $ball => $collmarks)
 										{
 											$this->array[$specID]['groups'][$id_group]['predmets'][$Typecontr][$IDEPC]['marks'][$ball] = $collmarks;

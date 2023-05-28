@@ -32,7 +32,8 @@ use PDO;
 		public function datadepartments()	//получение списка институтов для выпадающегося списка
 		{
 			$SQL='SELECT `fnum` , `fname`
-					FROM `departments`';
+					FROM `departments`
+					WHERE active=1';
 			$result = $this->db->query($SQL);
 			return $result;
 		}
@@ -105,7 +106,7 @@ use PDO;
 
 		public function get_marks_students($arrgrZAP)		//получение оценок студентов
 		{
-			$SQL = "SELECT distinct S.`id`, GR.`grid`, EDU.`Groupid`, EDPC.`IDEPC`, EDPC.`IDContr`, STUD.`STID`, STUD.`FirstName`, STUD.`LastName`, STUD.`MiddleName`, STUD.`FullNameDat`, STUD.`LastName`, STUD.`MiddleName`, M.`res`
+			$SQL = "SELECT distinct S.`id`, GR.`grid`, EDU.`Groupid`, EDPC.`IDEPC`, EDPC.`IDContr`, STUD.`STID`, STUD.`FirstName`, STUD.`LastName`, STUD.`MiddleName`, STUD.`FullNameDat`, M.`res`
 					FROM `marks` M
 					LEFT JOIN `eduplancontent` EDPC ON EDPC.`IDEPC` = M.`IDEPC`
 					LEFT JOIN `eduplans`EDP ON EDP.`IDEP` = EDPC.`IDEP`
@@ -115,6 +116,11 @@ use PDO;
 					LEFT JOIN `specializations` S ON S.`id` = EDP.`IDSp`
 					LEFT JOIN `specialities` SP ON SP.`id` = S.`specialityID`
 					where GR.`grnum` IN ('" . implode("','", $arrgrZAP) . "')
+					and
+					M.`DateEx`>'".($this->poster->post_year-1)."-09-01'
+					and
+					M.`DateEx`<'".($this->poster->post_year)."-09-01'
+					
 			";			
 			$result = $this->db->query($SQL);
 			$result=$result->fetchAll();
